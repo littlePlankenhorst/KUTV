@@ -1,0 +1,866 @@
+:root {
+    --primary-color: #007bff;
+    --primary-color-dark: #0056b3;
+    --white: #ffffff;
+    --text-color: #333333;
+    --text-color-light: #666666;
+}
+
+/* Existing styles... */
+
+/* New styles for the full-screen container */
+.full-screen-container {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f0f0f0;
+    padding-top: 60px; /* To account for the fixed navbar */
+    box-sizing: border-box;
+}
+
+.intro-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 40px;
+}
+
+.intro-content h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+.image-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    overflow: hidden; /* Add this to prevent overflow */
+}
+
+.placeholder-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; /* Change this from 'cover' to 'contain' */
+    border-radius: 10px;
+}
+
+/* Adjust existing styles */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #333;
+    padding: 10px 20px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    height: 40px; /* Adjust this value based on your navbar height */
+    overflow: hidden;
+}
+
+.logo img {
+    max-height: 100%;
+    width: auto;
+    object-fit: contain;
+}
+
+.nav-buttons {
+    display: flex;
+    align-items:center;
+    
+    flex-wrap: wrap; /* Allow buttons to wrap */
+}
+
+.nav-buttons a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    margin: 5px;
+    background-color: #555;
+    border-radius: 5px;
+}
+
+.nav-buttons a:hover {
+    background-color: #777;
+}
+
+.nav-buttons a:last-child {
+    background-color: #4CAF50; /* Green color for the last button */
+}
+
+.nav-buttons a:last-child:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
+
+.menu-toggle {
+    display: none; /* Hide the menu toggle by default */
+    cursor: pointer;
+    font-size: 24px;
+    color: white; /* Adjust color as needed */
+}
+
+main {
+    flex: 1;
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.sponsors {
+    background-color: #f0f0f0;
+    padding: 20px;
+    text-align: center;
+    margin-top: auto;
+}
+
+.sponsor-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.sponsor {
+    width: 150px;
+    height: 100px;
+    background-color: #f0f0f0; /* Match this with the sponsors section background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+.sponsor::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(
+        circle,
+        rgba(221, 221, 221, 1) 0%,
+        rgba(221, 221, 221, 1) 70%,
+        rgba(240, 240, 240, 0) 100%
+    );
+    border-radius: 5px;
+}
+
+.sponsor img {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+    position: relative;
+    z-index: 1;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    margin-top: auto;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+    .menu-toggle {
+        display: block; /* Show the menu toggle on small screens */
+    }
+    .nav-buttons {
+        display: none; /* Hide nav buttons by default */
+        flex-direction: column; /* Stack buttons vertically */
+        position: absolute; /* Position them absolutely */
+        top: 100%; /* Position below the navbar */
+        left: 0;
+        right: 0;
+        background-color: #333; /* Background color for dropdown */
+    }
+    .nav-buttons.active {
+        display: flex; /* Show buttons when active */
+    }
+    .nav-buttons a {
+        padding: 10px; /* Add padding for better touch targets */
+        text-align: center; /* Center align text */
+    }
+    .full-screen-container {
+        flex-direction: column;
+    }
+    .intro-content, .image-container {
+        padding: 20px;
+    }
+    .placeholder-image {
+        height: 200px; /* Set a fixed height for smaller screens */
+    }
+}
+
+.hero-container {
+    position: relative;
+    width: 100vw;
+    height: 50vh;
+    margin-left: calc(-50vw + 50%);
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero-container::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background-image: inherit;
+    background-size: cover;
+    background-position: center;
+    filter: blur(10px);
+    z-index: -1;
+}
+
+.hero-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    mask-image: linear-gradient(to bottom, 
+                 black 0%,
+                 black 80%, 
+                 transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, 
+                 black 0%,
+                 black 80%, 
+                 transparent 100%);
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.5) 0%,
+        rgba(0, 0, 0, 0.5) 70%,
+        rgba(0, 0, 0, 0) 100%
+    );
+}
+
+.hero-text {
+    position: relative;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    padding: 0 20px;
+    z-index: 2;
+    text-align: center;
+}
+
+.hero-text h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.hero-text p {
+    font-size: 1.5rem;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+.news-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px; /* Further increased gap between items */
+    padding: 40px; /* Further increased padding around the container */
+    max-width: 1600px; /* Increased max-width to allow for even larger items */
+    margin: 40px auto;
+}
+
+.news-item {
+    background-color: #f0f0f0;
+    border-radius: 16px; /* Increased border radius */
+    overflow: hidden;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15); /* Larger shadow for more depth */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.news-item:hover {
+    transform: translateY(-12px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+}
+
+.news-item img {
+    width: 100%;
+    height: 350px; /* Significantly increased height of the image */
+    object-fit: cover;
+}
+
+.news-item h2 {
+    padding: 25px; /* Increased padding */
+    margin: 0;
+    font-size: 1.8rem; /* Significantly increased font size */
+    color: #333;
+    line-height: 1.3; /* Added line height for better readability */
+}
+
+@media (max-width: 1400px) {
+    .news-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 900px) {
+    .news-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .news-item img {
+        height: 400px; /* Even larger images on mobile for better visibility */
+    }
+    
+    .news-item h2 {
+        font-size: 2rem; /* Larger font on mobile */
+    }
+}
+
+.info-content {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.info-content h2 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.info-content h3 {
+    font-size: 2rem;
+    color: #444;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.info-content p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.info-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.info-table th, .info-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+.info-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    color: #333;
+}
+
+.info-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.info-table tr:hover {
+    background-color: #f5f5f5;
+}
+
+@media (max-width: 768px) {
+    .info-table {
+        font-size: 0.9rem;
+    }
+    
+    .info-table th, .info-table td {
+        padding: 8px;
+    }
+}
+
+.schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+
+.schedule-table th, .schedule-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+.schedule-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    color: #333;
+}
+
+.schedule-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.schedule-table tr:hover {
+    background-color: #f5f5f5;
+}
+
+.schedule-table td[colspan="2"] {
+    background-color: #e6e6e6;
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    .schedule-table {
+        font-size: 0.9rem;
+    }
+    
+    .schedule-table th, .schedule-table td {
+        padding: 8px;
+    }
+}
+
+/* FAQ Styles */
+.faq-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.faq-content .head1 {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.faq {
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.faq h3 {
+    background-color: #f5f5f5;
+    padding: 15px;
+    margin: 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.faq h3:hover {
+    background-color: #e9e9e9;
+}
+
+.faq p {
+    padding: 15px;
+    margin: 0;
+    display: none;
+    background-color: #fff;
+}
+
+.faq.active p {
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .faq-content {
+        padding: 15px;
+    }
+
+    .faq-content .head1 {
+        font-size: 1.8rem;
+    }
+
+    .faq h3 {
+        font-size: 1.1rem;
+    }
+}
+
+/* Updated Registration Form Styles */
+.main {
+    max-width: 700px; /* Increased width */
+    padding: 40px; /* Adjust padding as needed */
+    background-color: #ededed;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: auto; /* Center the container within its parent */
+    margin-top: 20px; /* Add spacing at the top */
+    margin-bottom: 20px; /* Add spacing at the bottom to prevent overlap */
+    position: relative; /* Remove absolute positioning */
+}
+
+.formrow {
+    max-width: 1000px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.field {
+    flex: 1 1 50%; /* Ensures the field spans the full row */
+    max-width: 900px; /* Optional: Adjust the maximum width */
+    margin-right:50px; /* Center the field and add spacing */
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="email"],
+select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+select.form-control {
+    width: 100%; /* Ensures it spans the full width of its container */
+    max-width: 1200px; /* Set this to the desired maximum width */
+    padding: 10px; /* Optional: Padding for better appearance */
+    font-size: 16px; /* Ensures text readability */
+    margin: 10px auto; 
+    margin-left:10px;/* Optional: Centers it and adds vertical spacing */
+    display: block; /* Ensures it respects block-level behavior */
+}
+/* Add some space between student rows */
+.last-row {
+    margin-bottom: 60px; /* Space between students */
+}
+
+/* Optional: Add a bit of space between fields inside each row */
+
+
+
+
+
+button[type="submit"] {
+    display: block;
+    width: 80%;
+    padding: 12px;
+    margin-left:62px;
+    margin-top:32px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+@media (max-width: 1200px) {
+    .main {
+        max-width: 90%; /* Adaptive width for smaller screens */
+    }
+}
+
+@media (max-width: 768px) {
+    .formrow {
+        flex-direction: column;
+    }
+
+    .field {
+        flex: 0 0 100%;
+        margin-bottom: 15px;
+    }
+}
+
+
+.login-container {
+    max-width: 400px;
+    max-height: 800px;
+    margin:auto;  /* Increased margin for better spacing */
+    padding: 100px;    /* Increased padding */
+    background-color: var(--white);
+    border-radius: 12px;  /* Increased border radius */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);  /* Softer shadow */
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: 600;  /* Made labels bolder */
+    color: var(--text-color);
+    font-size: 20px;
+}
+
+.form-group input {
+    padding: 1px auto;
+    padding-top:16px;
+    padding-bottom:16px;
+    border: 2px solid #eaeaea;  /* Lighter border */
+    border-radius: 8px;
+    font-size: 18px;
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--primary-color);  /* Added focus state */
+}
+
+.submit-btn {
+    background-color: var(--primary-color);
+    color: var(--white);
+    padding: 1px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;  /* Made button text bolder */
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 1px;  /* Remove this if it exists */
+}
+
+.submit-btn:hover {
+    background-color: var(--primary-color-dark);  /* Use your darker primary color variable */
+}
+
+.form-footer {
+    text-align: center;
+    margin-top: 1.5rem;
+    color: var(--text-color-light);  /* Use your text color variable */
+    font-size: 0.95rem;
+}
+
+.form-footer a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.form-footer a:hover {
+    text-decoration: underline;
+}
+
+/* Add responsive adjustments */
+@media (max-width: 768px) {
+    .login-container {
+        margin: 2rem 1rem;
+        padding: 2rem;
+    }
+    .welcome-message {
+        margin-right:100px;
+        padding:auto;
+    }
+}
+
+.button-wrapper {
+    margin-top: 3rem;  /* Increased from 1.5rem to 3rem for much more space */
+}
+
+/* Add this to your existing CSS */
+#user-name {
+    color: var(--white); /* Match the text color to the navbar */
+    font-size: 1rem; /* Adjust the font size to match other text */
+    font-weight: 600; /* Make it bold to match the button text */
+    margin-left: 10px; /* Add some space between the username and the navbar */
+}
+.welcome-message {
+    font-size: 16px; /* Adjust font size */
+    font-weight: 600; /* Slightly bold text */
+    color: #ffffff; /* Dark text color */
+    padding-left: 15px;
+    margin-left:100px;
+}
+/* Upload Layout Styling */
+.upload-layout {
+    display: flex;
+    max-width: 1200px;
+    width: 100%;
+    height: 100%;
+    border: 10px solid #ccc;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Sections */
+.upload-section {
+    flex: 1; /* Divide equally */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 70px;
+}
+
+/* Left Section Styling */
+.left-section {
+    background-color: #fff5e6;
+    border-right: 5px solid #ccc;
+}
+
+/* Right Section Styling */
+.right-section {
+    background-color: #fff5e6;
+    border-left: 5px solid #ccc;
+}
+
+/* Inner Container Styling */
+.inner-container {
+    width: 100%;
+    height: 80%;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px 60px 70px 80px;
+    margin: 0px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+/* For screens 1400px and larger */
+@media (max-width: 1400px) {
+    .upload-layout {
+        width: 85% auto; /* Slightly narrower for mid-range large screens */
+    }
+
+    .upload-section {
+        padding: 30px; /* Adjust padding */
+    }
+
+    .inner-container {
+        width: 75%; /* Slightly smaller containers */
+    }
+}
+
+/* For screens between 1200px and 1400px */
+@media (max-width: 1200px) {
+    .upload-layout {
+        width: 90% auto; /* A bit more narrow for large screens */
+    }
+
+    .upload-section {
+        padding: 25px; /* Adjust padding */
+    }
+
+    .inner-container {
+        width: 80%; /* Adjust the width */
+    }
+}
+
+/* For screens between 900px and 1200px */
+@media (max-width: 900px) {
+    .upload-layout {
+        width: 95% auto; /* Full width for medium-sized screens */
+    }
+
+    .upload-section {
+        padding: 20px; /* Adjust padding */
+    }
+
+    .inner-container {
+        width: 85%; /* Adjust the inner container width */
+    }
+}
+
+/* For screens smaller than 768px */
+@media (max-width: 768px) {
+    /* Stack the sections vertically on smaller screens */
+    .upload-layout {
+        flex-direction: column; /* Stack the sections vertically */
+        height: auto;
+        
+    }
+
+    .upload-section {
+        width: 100%; /* Make each section take full width */
+        margin-bottom: 20px;
+    }
+
+    /* Adjust inner container width and height for smaller screens */
+    .inner-container {
+        width: 90%; /* Decrease the width for smaller screens */
+        height: auto; /* Allow content to grow */
+        padding: 10px; /* Reduce padding for mobile */
+    }
+}
+
+/* For very small screens (mobile phones) */
+@media (max-width: 480px) {
+    /* For very small screens (like mobile phones) */
+    .upload-layout {
+        width: 100%; /* Full width */
+        padding: 10px; /* Add some padding to the layout */
+    }
+
+    .upload-section {
+        padding: 15px; /* Adjust padding for mobile */
+    }
+
+    .inner-container {
+        width: 100%; /* Full width on very small screens */
+        padding: 5px; /* Further reduce padding */
+    }
+}
