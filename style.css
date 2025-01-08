@@ -717,7 +717,24 @@ button[type="submit"]:hover {
 }
 
 .button-wrapper {
-    margin-top: 3rem;  /* Increased from 1.5rem to 3rem for much more space */
+    margin: 1px 1px 1px 1px;
+    padding:0px;  /* Increased from 1.5rem to 3rem for much more space */
+}
+
+.submit-btn-forgot {
+    background-color: var(--primary-color);
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;  /* Made button text bolder */
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin: 1px 1px 1px 1px;  /* Remove this if it exists */
+}
+
+.submit-btn-forgot:hover {
+    background-color: var(--primary-color-dark);  /* Use your darker primary color variable */
 }
 
 /* Add this to your existing CSS */

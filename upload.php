@@ -10,7 +10,7 @@ if (!isset($_SESSION['csapatnev'])) {
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "kutv1";
+$dbname = "kutv3";
 
 $existingFiles1 = [];
 $existingFiles2 = [];

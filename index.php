@@ -20,6 +20,9 @@ session_start();
                 <a href="./szabaly.php">Általános szabályok</a>
                 <a href="./gyik.php">Gyakori kérdések</a>
                 <?php if (isset($_SESSION['csapatnev'])): ?>
+                    <?php if ($_SESSION['csapatnev'] == 'admin'): ?>
+                        <a href="./admin.php">Admin Panel</a>
+                    <?php endif; ?>
                     <a href="./upload.php">Feltöltés</a>
                     <a href="./logout.php">Kijelentkezés</a>
                     <span class="welcome-message"><?php echo htmlspecialchars($_SESSION['csapatnev']); ?></span>
@@ -47,7 +50,6 @@ session_start();
             <h2>A verseny célja</h2>
             <p>A Középiskolások üzleti Tanácsadó Versenye magyar anyanyelvű középiskolás diákoknak szervezett gazdasági verseny, amit a Babeș–Bolyai Tudományegyetem Közgazdaság- és Gazdálkodástudományi Karának magyar tagozata szervez. Célunk a közgazdász szakma rejtélyeibe betekintést nyújtani a pályaválasztás előtt álló fiatalok számára. Ennek megfelelően, egyszerű, gyakorlatias és szórakoztató tanulási módszerek segítségével építettük fel a Középiskolások üzleti Tanácsadó Versenyét. A verseny alatt a diákok megismerkedhetnek a piackutatás területével és egy esettanulmány megoldásának kihívásaival.</p>
         </section>
-        <!-- Add more sections as needed -->
     </main>
 
     <section class="sponsors">

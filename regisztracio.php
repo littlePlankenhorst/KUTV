@@ -3,7 +3,7 @@ session_start();
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "kutv1";
+$dbname = "kutv3";
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -47,6 +47,7 @@ try {
         for ($i = 1; $i <= 3; $i++) {
             $teammates[] = [
                 'keresztNev' => $_POST["teammate_keresztnev_$i"],
+                'vezetekNev' => $_POST["teammate_vezeteknev_$i"],
                 'osztaly' => $_POST["teammate_osztaly_$i"], // Assuming you want to capture class as well
                 'telefon' => $_POST["teammate_telefon_$i"],
                 'email' => $_POST["teammate_email_$i"],
@@ -139,7 +140,7 @@ try {
 foreach ($teammates as $teammate) {
     $stmt = $conn->prepare("INSERT INTO versenyzo (vezetekNev, keresztNev, telefon, email, osztaly, IBAN, telepules, utca, csapatID) 
                             VALUES (:vezetekNev, :keresztNev, :telefon, :email, :osztaly, :IBAN, :telepules, :utca, :csapatID)");
-    $stmt->bindParam(':vezetekNev', $teammate['keresztNev']); // Student's last name
+    $stmt->bindParam(':vezetekNev', $teammate['vezetekNev']); // Student's last name
     $stmt->bindParam(':keresztNev', $teammate['keresztNev']); // Student's first name
     $stmt->bindParam(':telefon', $teammate['telefon']);
     $stmt->bindParam(':email', $teammate['email']);
@@ -171,7 +172,7 @@ foreach ($teammates as $teammate) {
                     $mail->setFrom('your_email@gmail.com', 'Szabo David-Bence'); // Set sender's email and name
                     $mail->Subject = 'Sikeres Regisztracio';
                     $mail->Body = "Kedves " . htmlspecialchars($teammate['keresztNev']) . ",\n\n" .
-                                  "Gratulálunk! Sikeresen regisztráltál a versenyre.\n\n" .
+                                  "Gratulálunk! A csapat sikeresen regisztrált a versenyre.\n\n" .
                                   "Üdvözlettel,\n" .
                                   "A Szervezők";
 
@@ -184,7 +185,7 @@ foreach ($teammates as $teammate) {
                 $mail->setFrom('mailbence74@gmail.com', 'Szabo David-Bence'); // Set sender's email and name
                 $mail->Subject = 'Sikeres Regisztracio';
                 $mail->Body = "Kedves " . htmlspecialchars($vezeteknev) . " " . htmlspecialchars($keresztnev) . ",\n\n" .
-                              "Gratulálunk! A csapat sikeresen regisztrált a versenyre.\n\n" .
+                              "Gratulálunk! Sikeresen regisztráltál a versenyre.\n\n" .
                               "Üdvözlettel,\n" .
                               "A Szervezők";
 
@@ -288,7 +289,7 @@ foreach ($teammates as $teammate) {
             <div class="formrow">
                 <div class="field">
                     <label for="teammate_keresztnev_<?php echo $i; ?>">Diák <?php echo $i; ?> Vezetékneve:</label>
-                    <input type="text" id="teammate_keresztnev_<?php echo $i; ?>" name="teammate_keresztnev_<?php echo $i; ?>" required>
+                    <input type="text" id="teammate_vezeteknev_<?php echo $i; ?>" name="teammate_vezeteknev_<?php echo $i; ?>" required>
                 </div>
                 <div class="field">
                     <label for="teammate_keresztnev_<?php echo $i; ?>">Diák <?php echo $i; ?> Keresztneve:</label>

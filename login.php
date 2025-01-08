@@ -7,7 +7,7 @@ session_start();
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "kutv1";
+$dbname = "kutv3";
 
 try {
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);

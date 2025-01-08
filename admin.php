@@ -10,7 +10,7 @@ if (!isset($_SESSION['csapatnev']) || !isset($_SESSION['is_admin']) || !$_SESSIO
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "kutv1";
+$dbname = "kutv3";
 
 try {
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
@@ -23,10 +23,8 @@ try {
             i.iskolaNev, 
             CONCAT(t.vezetekNev, ' ', t.keresztNev) AS tanarNev,
             GROUP_CONCAT(CONCAT(v.vezetekNev, ' ', v.keresztNev) SEPARATOR ', ') AS Versenyzok,
-            CASE 
-                WHEN f.csapatID IS NOT NULL THEN '✔' 
-                ELSE '✖' 
-            END AS Status
+            (SELECT COUNT(*) FROM fordulomegoldasa f1 WHERE f1.csapatID = c.csapatID AND f1.forduloID = 1) as Round1_Status,
+            (SELECT COUNT(*) FROM fordulomegoldasa f2 WHERE f2.csapatID = c.csapatID AND f2.forduloID = 2) as Round2_Status
         FROM 
             csapat c
         JOIN 
@@ -35,10 +33,12 @@ try {
             tanar t ON c.tanarID = t.tanarID
         LEFT JOIN 
             versenyzo v ON c.csapatID = v.csapatID
-        LEFT JOIN 
-            fordulomegoldasa f ON c.csapatID = f.csapatID
+        WHERE
+            c.csapatNev != 'admin'
         GROUP BY 
-            c.csapatID
+            c.csapatID, c.csapatNev, i.iskolaNev, t.vezetekNev, t.keresztNev
+        ORDER BY 
+            c.csapatNev
     ");
     $stmt->execute();
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -69,7 +69,7 @@ try {
                 <a href="./upload.php">Feltöltés</a>
                 <a href="./logout.php">Kijelentkezés</a>
                 <?php if (isset($_SESSION['csapatnev'])): ?>
-                    <span>Üdvözöljük: <?php echo htmlspecialchars($_SESSION['csapatnev']); ?></span>
+                    <span class="welcome-message"><?php echo htmlspecialchars($_SESSION['csapatnev']); ?></span>
                 <?php endif; ?>
             </div> 
         </nav>
@@ -85,7 +85,8 @@ try {
                         <th>Iskola Név</th>
                         <th>Tanár Név</th>
                         <th>Versenyzők</th>
-                        <th>Státusz</th>
+                        <th>1. Forduló</th>
+                        <th>2. Forduló</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -95,7 +96,8 @@ try {
                         <td><?php echo htmlspecialchars($row['iskolaNev']); ?></td>
                         <td><?php echo htmlspecialchars($row['tanarNev']); ?></td>
                         <td><?php echo htmlspecialchars($row['Versenyzok']); ?></td>
-                        <td><?php echo htmlspecialchars($row['Status']); ?></td>
+                        <td class="status-cell"><?php echo $row['Round1_Status'] > 0 ? '✔' : '✖'; ?></td>
+                        <td class="status-cell"><?php echo $row['Round2_Status'] > 0 ? '✔' : '✖'; ?></td>
                     </tr>
                     <?php endforeach; ?>
                 </tbody>
