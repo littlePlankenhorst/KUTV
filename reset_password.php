@@ -32,14 +32,8 @@ if (isset($_GET['token'])) {
                 <a href="./infok.php">Általános információk</a>
                 <a href="./szabaly.php">Általános szabályok</a>
                 <a href="./gyik.php">Gyakori kérdések</a>
-                <?php if (isset($_SESSION['csapatnev'])): ?>
-                    <a href="./upload.php">Feltöltés</a>
-                    <a href="./logout.php">Kijelentkezés</a>
-                    <span class="welcome-message"><?php echo htmlspecialchars($_SESSION['csapatnev']); ?></span>
-                <?php else: ?>
-                    <a href="./regisztracio.php">Regisztráció</a>
-                    <a href="./login.php">Bejelentkezés</a>
-                <?php endif; ?>
+                <a href="./regisztracio.php">Regisztráció</a>
+                <a href="./login.php">Bejelentkezés</a>
             </div>
         </nav>
     </header>

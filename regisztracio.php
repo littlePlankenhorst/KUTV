@@ -164,12 +164,13 @@ foreach ($teammates as $teammate) {
                 $mail->Password = 'bwom gljb zzlf zmjk'; // SMTP password
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // Enable TLS encryption
                 $mail->Port = 587; // TCP port to connect to
+                $mail->CharSet = "UTF -8";
 
                 // Recipients
                 // Send email to each teammate
                 foreach ($teammates as $teammate) {
                     $mail->addAddress($teammate['email']); // Add a teammate's email
-                    $mail->setFrom('your_email@gmail.com', 'Szabo David-Bence'); // Set sender's email and name
+                    $mail->setFrom('mailbence74@gmail.com', 'Szabo David-Bence'); // Set sender's email and name
                     $mail->Subject = 'Sikeres Regisztracio';
                     $mail->Body = "Kedves " . htmlspecialchars($teammate['keresztNev']) . ",\n\n" .
                                   "Gratulálunk! A csapat sikeresen regisztrált a versenyre.\n\n" .

@@ -16,7 +16,6 @@ $existingFiles1 = [];
 $existingFiles2 = [];
 $uploadError = null;
 
-// Replace the hardcoded deadline definitions with database query
 $deadlines = [];
 try {
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
@@ -31,9 +30,9 @@ try {
         $deadlines[$result['forduloID']] = new DateTime($result['hatarido']);
     }
     
-    // Set deadlines (with fallback dates just in case)
-    $deadline = isset($deadlines[1]) ? $deadlines[1] : new DateTime('2025-02-01 10:00:00');
-    $deadline2 = isset($deadlines[2]) ? $deadlines[2] : new DateTime('2025-12-25 10:00:00');
+    date_default_timezone_set('Europe/Bucharest');
+    $deadline = $deadlines[1];
+    $deadline2 = $deadlines[2];
     $currentTime = new DateTime();
 
     // Format dates for display
@@ -45,8 +44,6 @@ try {
     $isPastDeadline = $currentTime > $deadline;
     $isPastDeadline2 = $currentTime > $deadline2;
 
-    // Maximum file size (20 MB in bytes)
-    $maxFileSize = 20 * 1024 * 1024; // 20 * 1024 * 1024 bytes = 20 MB
 
     // Clear any previous upload messages
     if (isset($_SESSION['upload_message'])) {
@@ -83,16 +80,9 @@ try {
                 $fileNameCmps = explode(".", $FileName);
                 $fileExtension = strtolower(end($fileNameCmps));
 
-                // Check file size
-                $fileSize = $_FILES['pdf_file']['size'];
-                if ($fileSize > $maxFileSize) {
-                    $_SESSION['upload_message'] = "A fájl mérete nem haladhatja meg a 20 MB-ot. A jelenlegi fájl mérete: " . 
-                                   round($fileSize / (1024 * 1024), 2) . " MB";
-                    header("Location: " . $_SERVER['PHP_SELF']);
-                    exit();
-                } 
+                
                 // Check if the file is a PDF
-                elseif ($fileExtension === 'pdf') {
+                    if ($fileExtension === 'pdf') {
                     $uploadFileDir = './uploads/';
                     
                     // Ensure uploads directory exists
@@ -193,8 +183,8 @@ try {
             <div class="inner-container">
         <h1>1. Forduló megoldása</h1>
         <div class="time-info">
-            <p>Rendszeridő: <strong><?php echo htmlspecialchars($formattedCurrentTime); ?></strong></p>
-            <p>Feltöltési határidő: <strong><?php echo htmlspecialchars($formattedDeadline); ?></strong></p>
+            <!-- <p>Rendszeridő: <strong><?php echo htmlspecialchars($formattedCurrentTime); ?></strong></p>
+            <p>Feltöltési határidő: <strong><?php echo htmlspecialchars($formattedDeadline); ?></strong></p> -->
             <p>Státusz: 
                 <strong>
                     <?php 
@@ -226,10 +216,10 @@ try {
                 </div>
             <?php endif; ?>
 
-            <form method="post" enctype="multipart/form-data" id="uploadForm1">
+            <form method="post" enctype="multipart/form-data" id="uploadForm1" onsubmit="return confirmReplace(<?php echo !empty($existingFiles1); ?>)">
                 <input type="hidden" name="fordulo" value="1">
                 <label for="pdf_file1">Válassza ki a feltöltendő PDF fájlt:</label>
-                <input type="file" name="pdf_file" id="pdf_file1" accept=".pdf" required>
+                <input type="file" name="pdf_file" id="pdf_file1" accept=".pdf" required onchange="validateFileSize(this)">
                 <button type="submit">Feltöltés</button>
             </form>
         <?php endif; ?>
@@ -241,8 +231,8 @@ try {
             <div class="inner-container">
             <h1>2. Forduló megoldása</h1>
         <div class="time-info">
-            <p>Rendszeridő: <strong><?php echo htmlspecialchars($formattedCurrentTime); ?></strong></p>
-            <p>Feltöltési határidő: <strong><?php echo htmlspecialchars($formattedDeadline2); ?></strong></p>
+            <!-- <p>Rendszeridő: <strong><?php echo htmlspecialchars($formattedCurrentTime); ?></strong></p>
+            <p>Feltöltési határidő: <strong><?php echo htmlspecialchars($formattedDeadline2); ?></strong></p> -->
             <p>Státusz: 
                 <strong>
                     <?php 
@@ -274,10 +264,10 @@ try {
                 </div>
             <?php endif; ?>
 
-            <form method="post" enctype="multipart/form-data" id="uploadForm2">
+            <form method="post" enctype="multipart/form-data" id="uploadForm2" onsubmit="return confirmReplace(<?php echo !empty($existingFiles2); ?>)">
                 <input type="hidden" name="fordulo" value="2">
                 <label for="pdf_file2">Válassza ki a feltöltendő PDF fájlt:</label>
-                <input type="file" name="pdf_file" id="pdf_file2" accept=".pdf" required>
+                <input type="file" name="pdf_file" id="pdf_file2" accept=".pdf" required onchange="validateFileSize(this)">
                 <button type="submit">Feltöltés</button>
             </form>
         <?php endif; ?>
@@ -320,6 +310,22 @@ try {
         function toggleMenu() {
             const navButtons = document.querySelector('.nav-buttons');
             navButtons.classList.toggle('active');
+        }
+
+        function validateFileSize(input) {
+            const maxSize = 20 * 1024 * 1024; // 20MB in bytes
+            if (input.files[0].size > maxSize) {
+                alert('A fájl mérete nem haladhatja meg a 20 MB-ot. A jelenlegi fájl mérete: ' + 
+                      (input.files[0].size / (1024 * 1024)).toFixed(2) + ' MB');
+                input.value = ''; // Clear the file input
+            }
+        }
+
+        function confirmReplace(hasExistingFile) {
+            if (hasExistingFile) {
+                return confirm('Már van feltöltött fájl. Biztosan szeretné lecserélni?');
+            }
+            return true;
         }
     </script>
 </html> 

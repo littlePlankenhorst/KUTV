@@ -27,14 +27,8 @@ use PHPMailer\PHPMailer\Exception;
                 <a href="./infok.php">Általános információk</a>
                 <a href="./szabaly.php">Általános szabályok</a>
                 <a href="./gyik.php">Gyakori kérdések</a>
-                <?php if (isset($_SESSION['csapatnev'])): ?>
-                    <a href="./upload.php">Feltöltés</a>
-                    <a href="./logout.php">Kijelentkezés</a>
-                    <span class="welcome-message"><?php echo htmlspecialchars($_SESSION['csapatnev']); ?></span>
-                <?php else: ?>
-                    <a href="./regisztracio.php">Regisztráció</a>
-                    <a href="./login.php">Bejelentkezés</a>
-                <?php endif; ?>
+                <a href="./regisztracio.php">Regisztráció</a>
+                <a href="./login.php">Bejelentkezés</a>
             </div>
         </nav>
     </header>
@@ -58,7 +52,7 @@ use PHPMailer\PHPMailer\Exception;
 
                         // Check if the email exists in the database by joining csapat and tanar
                         $stmt = $conn->prepare("
-                            SELECT c.jelszo, t.email 
+                            SELECT c.jelszo, c.csapatnev, c.csapatID, t.email 
                             FROM csapat c 
                             JOIN tanar t ON c.tanarID = t.tanarID 
                             WHERE t.email = :email
@@ -67,6 +61,10 @@ use PHPMailer\PHPMailer\Exception;
                         $stmt->execute();
 
                         if ($stmt->rowCount() > 0) {
+                            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                            $csapatnev = $row['csapatnev'];
+                            $csapatID = $row['csapatID'];
+                            
                             // Generate a unique token
                             $token = bin2hex(random_bytes(10));
                             $expires = date("U") + 3600; // Token valid for 1 hour
@@ -89,6 +87,7 @@ use PHPMailer\PHPMailer\Exception;
                                 $mail->Password = 'bwom gljb zzlf zmjk';
                                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
                                 $mail->Port = 587;
+                                $mail->CharSet = "UTF -8";
 
                                 // Recipients
                                 $mail->setFrom('mailbence74@gmail.com', 'Bence');
@@ -98,10 +97,10 @@ use PHPMailer\PHPMailer\Exception;
                                 $mail->isHTML(true);
                                 $mail->Subject = 'Jelszó visszaállítási kérelem';
                                 $resetLink = "http://localhost/KUTV1/reset_password.php?token=" . $token;
-                                $mail->Body = "Kattints a linkre a jelszavad visszaállításához: <a href='" . $resetLink . "'>" . $resetLink . "</a>";
+                                $mail->Body = "Kedves $csapatnev csapat!<br><br>Kattints a linkre a jelszavad visszaállításához: <a href='" . $resetLink . "'>" . $resetLink . "</a>";
 
                                 $mail->send();
-                                echo "<div class='success-message'>A visszaállítási link elküldve az email címedre.</div>";
+                                echo "<div class='success-message'>A visszaállítási link elküldve a(z) ($csapatID) $csapatnev csapat email címére.</div>";
                             } catch (Exception $e) {
                                 echo "<div class='error-message'>Az üzenet nem küldhető el. Mailer Error: {$mail->ErrorInfo}</div>";
                             }

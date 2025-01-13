@@ -76,7 +76,7 @@ try {
     </header>
 
     <main>
-        <h1>Admin Panel</h1>
+        <h1 style="padding-top:40px;">Admin Panel</h1>
         <div class="info-content">
             <table class="info-table">
                 <thead>

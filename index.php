@@ -41,7 +41,7 @@ session_start();
             <p>A jövő a tied!</p>
         </div>
         <div class="image-container">
-            <img src="./img/fooldal.jpg" alt="Students" class="placeholder-image">
+            <img src="./images/logo.jpg" alt="Students" class="placeholder-image">
         </div>
     </div>
 
